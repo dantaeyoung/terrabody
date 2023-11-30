@@ -4,13 +4,16 @@ from recorder import Recorder, AudioFile
 rec = Recorder(channels=1)
 
 context = zmq.Context()
-socket = context.socket(zmq.SUB)
-socket.connect("tcp://localhost:5555")
-socket.setsockopt_string(zmq.SUBSCRIBE, "")  # Subscribe to all messages
+subsocket = context.socket(zmq.SUB)
+subsocket.connect("tcp://localhost:5560")
+subsocket.setsockopt_string(zmq.SUBSCRIBE, "")  # Subscribe to all messages
+pubsocket = context.socket(zmq.PUB)
+pubsocket.connect("tcp://localhost:5559")
+
 
 
 while True:
-    message = socket.recv_string()
+    message = subsocket.recv_string()
     print(message)
     
     if message == "button1_held":
@@ -20,7 +23,9 @@ while True:
 
     if message == "button1_released":
         recfile2.stop_recording() 
+        recfile2.close()
         print("STOPPED RECORDING")
+        pubsocket.send_string("mouth:saysomething")
         a = AudioFile("output.wav")
         a.play()
         a.close()

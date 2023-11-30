@@ -11,7 +11,7 @@ print(">>> STARTING GPIO ZMQ SERVER")
 
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
-socket.bind("tcp://*:5555")
+socket.connect("tcp://localhost:5559")
 
 
 red = LED(17)
