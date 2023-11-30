@@ -4,6 +4,8 @@ import numpy as np
 # Set the recording duration (in seconds)
 duration = 5
 
+sd.default.device = 2
+
 def audio_callback(indata, frames, time, status):
     if status:
         print(status, file=sys.stderr)
