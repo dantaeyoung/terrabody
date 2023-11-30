@@ -7,6 +7,8 @@ import os
 import zmq
 
 
+print(">>> STARTING GPIO ZMQ SERVER")
+
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
 socket.bind("tcp://*:5555")
@@ -21,27 +23,28 @@ def held(btn):
     btn.was_held = True
     red.on()
     socket.send_string("button1_held")
-    print("button was held not just pressed")
-    print("starting recording")
+    print("[sending] button1_held")
 
 def released(btn):
     if not btn.was_held:
         just_pressed()
     else:
-        print("stopping recording")
+        print("[sending] button1_released")
+        socket.send_string("button1_released")
     btn.was_held = False
     red.off()
     green.off()
-    socket.send_string("button1_released")
 
 def just_pressed():
+    print("[sending] button1_justpressed")
     socket.send_string("button1_justpressed")
-    print("button was pressed not held")
 
 def pressed():
     green.on()
 
 btn = Button(2)
+
+btn.hold_time = 0.2 
 
 btn.when_held = held
 btn.when_released = released
