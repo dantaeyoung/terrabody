@@ -34,7 +34,7 @@ def released(btn):
 
 def just_pressed():
     print("[sending] button1_justpressed")
-    ps.send_string("button1_justpressed")
+    #ps.send_string("button1_justpressed")
 
 def pressed():
     green.on()

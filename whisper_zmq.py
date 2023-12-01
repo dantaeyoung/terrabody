@@ -48,11 +48,11 @@ while True:
     message = ps.recv_string()
     print("received", message)
     
-    if message == "whisper:transcribe_output":
+    if message == "record::recorded":
         print("yooo")
         res = transcribe_output()
         restext = res['text'].strip()
 
-        ps.send_string("piper:"+restext)
+        ps.send_string("transcribed::"+restext)
 
 

@@ -20,9 +20,9 @@ while True:
         recfile2.stop_recording() 
         recfile2.close()
         print("STOPPED RECORDING")
-        ps.send_string("whisper:transcribe_output")
-        a = AudioFile("output.wav")
-        a.play()
-        a.close()
+        ps.send_string("record::recorded")
+        #a = AudioFile("output.wav")
+        #a.play()
+        #a.close()
 
 
