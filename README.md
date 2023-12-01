@@ -15,7 +15,7 @@ this assumes [pi-heart](https://github.com/dantaeyoung/pi-heart/).
 
 
 
-## INSTALL
+## Whisper.cpp
 
 ### Install whisper.cpp
 More instructions via https://github.com/ggerganov/whisper.cpp/discussions/166
@@ -25,9 +25,14 @@ In a directory:
 git clone https://github.com/ggerganov/whisper.cpp
 cd whisper.cpp
 make -j stream
+make
+make server
 ./models/download-ggml-model.sh tiny.en
+./models/download-ggml-model.sh base.en
 ```
-- ~`pip install whisper-cpp-python`~
+Daemonize with pm2
+- pm2 start ./server --name whisper-server
+
 
   
 ### Install python libraries
