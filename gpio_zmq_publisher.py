@@ -6,12 +6,9 @@ import signal
 import os
 import zmq
 
+from pubsub import Pubsub
 
-print(">>> STARTING GPIO ZMQ SERVER")
-
-context = zmq.Context()
-socket = context.socket(zmq.PUB)
-socket.connect("tcp://localhost:5559")
+ps = Pubsub()
 
 
 red = LED(17)
@@ -22,7 +19,7 @@ Button.was_held = False
 def held(btn):
     btn.was_held = True
     red.on()
-    socket.send_string("button1_held")
+    ps.send_string("button1_held")
     print("[sending] button1_held")
 
 def released(btn):
@@ -30,14 +27,14 @@ def released(btn):
         just_pressed()
     else:
         print("[sending] button1_released")
-        socket.send_string("button1_released")
+        ps.send_string("button1_released")
     btn.was_held = False
     red.off()
     green.off()
 
 def just_pressed():
     print("[sending] button1_justpressed")
-    socket.send_string("button1_justpressed")
+    ps.send_string("button1_justpressed")
 
 def pressed():
     green.on()
