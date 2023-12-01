@@ -3,7 +3,7 @@
 
 part of the terra system.
 
-this assumes [pi-heart](https://github.com/dantaeyoung/pi-heart/).
+this assumes [pi-heart](https://github.com/dantaeyoung/pi-heart/) and an rpi5.
 
 
 
@@ -17,8 +17,8 @@ this assumes [pi-heart](https://github.com/dantaeyoung/pi-heart/).
 
 ## Whisper.cpp
 
-### Install whisper.cpp
-More instructions via https://github.com/ggerganov/whisper.cpp/discussions/166
+Install whisper.cpp
+(More instructions via https://github.com/ggerganov/whisper.cpp/discussions/166)
  - `sudo apt install libsdl2-dev`
 In a directory:
   ```
@@ -33,6 +33,7 @@ make server
 Daemonize with pm2
 - pm2 start ./server --name whisper-server
 
+pip install whispercpp
 
   
 ### Install python libraries
