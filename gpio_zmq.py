@@ -47,4 +47,15 @@ btn.when_held = held
 btn.when_released = released
 btn.when_pressed = pressed
 
-pause()
+
+
+while True:
+    message = ps.recv_string()
+    print("received", message)
+
+    if "gpio::led::green::on" in message:
+        green.on()
+
+    if "gpio::led::green::off" in message:
+        green.off()
+

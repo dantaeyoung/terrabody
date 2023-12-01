@@ -110,7 +110,9 @@ while True:
     
     if "transcribed::" in message:
         msg = message.split("transcribed::")[1]
+        ps.send_string("gpio::led::green::on")
         resp = chat_to_assistant(msg)
+        ps.send_string("gpio::led::green::off")
         ps.send_string("openai::" + resp)
 
 

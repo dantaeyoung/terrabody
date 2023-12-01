@@ -50,7 +50,9 @@ while True:
     
     if message == "record::recorded":
         print("yooo")
+        ps.send_string("gpio::led::green::on")
         res = transcribe_output()
+        ps.send_string("gpio::led::green::off")
         restext = res['text'].strip()
 
         ps.send_string("transcribed::"+restext)
