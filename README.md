@@ -21,4 +21,4 @@ part of the (t e r r a) system.
 
 ## SETUP:
 
-See [SETUP.md].
+See (SETUP.md)[SETUP.md].
