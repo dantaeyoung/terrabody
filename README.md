@@ -29,6 +29,7 @@ ZeroMQ is used as a messaging system to exchange messages between organs. The et
 Pros:
 - Each organ (computing module) operates individually.
 - You can interject and 'hook' into any particular organ's functions from external processes, including the webui.
+
 Cons:
 - Chasing down program flow is a bit like following a white rabbit.
 
