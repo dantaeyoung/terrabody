@@ -9,6 +9,9 @@ sounddevice = "*"
 requests = "*"
 openai = "*"
 aiohttp = "*"
+zmq = "*"
+flask = "*"
+flask-socketio = "*"
 
 [dev-packages]
 

@@ -1,10 +1,11 @@
 import subprocess
 import zmq
+import sys
+sys.path.append('../')
+from common.pubsub import Pubsub
 
-context = zmq.Context()
-subsocket = context.socket(zmq.SUB)
-subsocket.connect("tcp://localhost:5560")
-subsocket.setsockopt_string(zmq.SUBSCRIBE, "")  # Subscribe to all messages
+ps = Pubsub(name="piper")
+
 
 def say(phrase):
 # Define the first part of the pipe
@@ -33,24 +34,14 @@ def say(phrase):
 
 
 while True:
-    message = subsocket.recv_string()
+    message = ps.recv_string()
     print(message)
 
-    if("transcribed::" in message):
-        phrase = message.split("transcribed::")[1]
-        #say("You said: " + phrase)
-        print("saying: ", phrase)
-        
-
-    if("openai::" in message and "hue::" not in message):
-        phrase = message.split("openai::")[1]
+    if("::say:::" in message):
+        phrase = message.split("::say:::")[1]
+        print(phrase)
         say(phrase)
-        print("just said phrase")
-
-    if("to_piper::" in message):
-        phrase = message.split("to_piper::")[1]
-        say(phrase)
-        print("just said phrase")
+        print("just said phrase", phrase)
 
  
 #echo 'Hello! How are you?' | ./piper --model voices/en_GB-alan-medium.onnx --output-raw | aplay -r 22050 -f S16_LE -t raw -

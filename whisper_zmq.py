@@ -3,7 +3,7 @@ import os
 import requests
 from common.pubsub import Pubsub
 
-ps = Pubsub()
+ps = Pubsub(name="whisper")
 
 #current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,8 +30,8 @@ def transcribe_output():
     try:
         response = requests.post(url, data=payload, files=files)
         if response.status_code == 200:
-            print("Request successful.")
-            print(response.json())
+            #print("Request successful.")
+            #print(response.json())
             return response.json()
         else:
             print(f"Request failed with status code {response.status_code}.")
@@ -48,13 +48,14 @@ while True:
     message = ps.recv_string()
     print("received", message)
     
-    if message == "record::recorded":
-        print("yooo")
-        ps.send_string("gpio::led::green::on")
-        res = transcribe_output()
-        ps.send_string("gpio::led::green::off")
-        restext = res['text'].strip()
+    if "record--to" in message:
+        if "::recorded" in message:
+            ps.send_string("whisper--to--gpio::led:::green:on")
+            res = transcribe_output()
+            print("[whisper] transcribed:", res)
+            ps.send_string("whisper--to--gpio::led:::green:off")
+            restext = res['text'].strip()
 
-        ps.send_string("transcribed::"+restext)
+            ps.send_string("whisper--to--*::transcribed:::"+restext)
 
 

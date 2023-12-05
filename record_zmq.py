@@ -4,25 +4,27 @@ from common.pubsub import Pubsub
 
 rec = Recorder(channels=1)
 
-ps = Pubsub()
+ps = Pubsub(name="record")
 
 
 while True:
     message = ps.recv_string()
     print(message)
-    
-    if message == "button1_held":
-        recfile2 = rec.open("output.wav", 'wb')
-        print("STARTING RECORDING")
-        recfile2.start_recording()
+   
+    if "gpio--to" in message:
 
-    if message == "button1_released":
-        recfile2.stop_recording() 
-        recfile2.close()
-        print("STOPPED RECORDING")
-        ps.send_string("record::recorded")
-        #a = AudioFile("output.wav")
-        #a.play()
-        #a.close()
+        if "button1_held" in message:
+            recfile2 = rec.open("output.wav", 'wb')
+            print("STARTING RECORDING")
+            recfile2.start_recording()
+
+        if "button1_released" in message:
+            recfile2.stop_recording() 
+            recfile2.close()
+            print("STOPPED RECORDING")
+            ps.send_string("record--to--*::recorded")
+            #a = AudioFile("output.wav")
+            #a.play()
+            #a.close()
 
 

@@ -7,7 +7,7 @@ client = OpenAI()
 
 
 
-ps = Pubsub()
+ps = Pubsub(name="openai")
 
 
 
@@ -90,15 +90,6 @@ def chat_to_assistant(msg):
 ##################
 
 
-from pathlib import Path
-
-speech_file_path = Path(__file__).parent / "speech.mp3"
-response = client.audio.speech.create(
-  model="tts-1",
-  voice="alloy",
-  input="The quick brown fox jumped over the lazy dog."
-)
-response.stream_to_file(speech_file_path)
 
 
 
@@ -106,12 +97,14 @@ while True:
     message = ps.recv_string()
     print("received", message)
     
-    if "transcribed::" in message:
-        msg = message.split("transcribed::")[1]
-        ps.send_string("gpio::led::green::on")
-        resp = chat_to_assistant(msg)
-        ps.send_string("gpio::led::green::off")
-        ps.send_string("openai::" + resp)
+    if "whisper--" in message:
+        if "::transcribed:::" in message :
+            msg = message.split("transcribed:::")[1]
+            ps.send_string("openai--to--gpio::led:::green:on")
+            resp = chat_to_assistant(msg)
+            ps.send_string("openai--to--gpio::led:::green:off")
+            ps.send_string("openai--to--*::gptresponse:::" + resp)
+            ps.send_string("openai--to--piper::say:::" + resp)
 
 
 
