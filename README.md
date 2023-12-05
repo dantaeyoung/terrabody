@@ -20,11 +20,13 @@ Sometimes, it requests something from another organ in order to chew better.
 
 Organs are pretty independent. Anything about an internal state, it burps. If it wants something specific to happen, it requests. 
 
+The ether is treated like a cytoplasm. Messages move back and forth. 
 
+terraprograms are crafted on top of terrabody.
 
 ## implementation
 
-ZeroMQ is used as a messaging system to exchange messages between organs. The ether is treated like a cytoplasm. Messages move back and forth.
+ZeroMQ is used as a messaging system to exchange messages between organs. 
 
 Pros:
 - Each organ (computing module) operates individually.
