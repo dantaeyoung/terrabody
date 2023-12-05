@@ -37,8 +37,8 @@ Cons:
 
 ## message format
 
-`FROM--to--TO::MESSAGE:::PAYLOAD`
-`openai--to--piper::say:Hello! I'm just a digital assistant, so I don't have feelings, but I'm here and ready to assist you. How can I help you today?`
+- `FROM--to--TO::MESSAGE:::PAYLOAD`
+- `openai--to--piper::say:::Hello?`
 
 <!---
 
