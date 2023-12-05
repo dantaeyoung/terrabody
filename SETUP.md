@@ -48,17 +48,23 @@ Via (https://github.com/rhasspy/piper/tree/master)
   
 ### Install python libraries
 
-
-
  - `sudo apt install python3-pyaudio`??
  - install portaudio (need to build from scratch)
  - `pip install pyaudio`
  - `pip install sounddevice`
 
+## Pipenv
+
+- `pipenv install`
+
 ## SETUP
 
-gpio_zmq_server.sh and main_switchboard.py communicate to each other via zmq.
+Use `pm2` to run:
 
- - Run `gpio_zmq_server.sh` as a process via pm2.
- - Run `main_switchboard.py` as a process via pm2.
-
+- `pm2 start zmq_switchboard.py`
+- `pm2 start gpio.zmq.sh`
+- `pm2 start record_zmq.py`
+- `pm2 start whisper_zmq.py`
+- `cd piper && pm2 start piper_zmq.py`
+- ` pm2 start "pipenv run openai_interface.py" --name openai_interface.py`
+ 
