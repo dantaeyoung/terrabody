@@ -28,7 +28,7 @@ make server
 ./models/download-ggml-model.sh base.en
 ```
 Daemonize with pm2
-- pm2 start ./server --name whisper-server
+- `pm2 start ./server --name whisper-server`
 
 pip install whispercpp
 
