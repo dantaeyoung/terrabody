@@ -1,4 +1,15 @@
-this assumes [pi-heart](https://github.com/dantaeyoung/pi-heart/) and an rpi5.
+## Hardware:
+
+- Raspberry Pi 5 (ideally 8GB ram)
+- USB microphone
+- USB speaker
+- GPIO inputs (buttons and LEDs)
+ - (for detailed info, see `gpio_zmq.py`) 
+  
+
+## Pi-heart
+
+Install with [pi-heart](https://github.com/dantaeyoung/pi-heart/)
 
 
 ## Whisper.cpp
