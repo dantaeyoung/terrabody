@@ -63,7 +63,7 @@
 
 
         function convertData(data) {
-            const pattern = /([^--]+)--to--([^:]+)::([^:]+)(?:::([^]+))?/;
+            const pattern = /([^--]+)--to--([^:]+)::([^:]+)(:::([^]+))?/;
             const matches = data.match(pattern);
             console.log(matches)
 
