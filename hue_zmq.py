@@ -2,7 +2,7 @@ import json
 import sys
 import asyncio
 import aiohttp
-from pubsub import Pubsub
+from common.pubsub import Pubsub
 
 
 ps = Pubsub()

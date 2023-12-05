@@ -1,7 +1,7 @@
 import zmq
 import os
 import requests
-from pubsub import Pubsub
+from common.pubsub import Pubsub
 
 ps = Pubsub()
 

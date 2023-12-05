@@ -1,6 +1,6 @@
 import zmq
-from recorder import Recorder, AudioFile
-from pubsub import Pubsub
+from common.recorder import Recorder, AudioFile
+from common.pubsub import Pubsub
 
 rec = Recorder(channels=1)
 

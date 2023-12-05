@@ -1,16 +1,14 @@
 import os
 import time
+from common.pubsub import Pubsub
 from openai import OpenAI
 
 client = OpenAI()
 
 
-from pubsub import Pubsub
 
 ps = Pubsub()
 
-from openai import OpenAI
-client = OpenAI()
 
 
 instructions = """

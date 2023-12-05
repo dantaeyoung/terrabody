@@ -1,5 +1,5 @@
 from recorder import Recorder, AudioFile
-from pubsub import Pubsub
+from common.pubsub import Pubsub
 
 ps = Pubsub()
 

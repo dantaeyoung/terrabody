@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ZMQ messages</title>
+<style>
+#messages { 
+    height: 50vh;
+    overflow: auto;
+    border: 1px dotted gray;
+    padding:20px;
+    margin-bottom: 10px;
+}
+
+#messages li {
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+    <div id="chat">
+        <div id="messages"></div>
+        <input type="text" id="message" placeholder="Type a message..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('connect', function() {
+            console.log('Connected to WebSocket');
+        });
+
+        socket.on('message_from_server', function(data) {
+            var messages = document.getElementById('messages');
+            var listItem = document.createElement('li');
+            listItem.textContent = data;
+            messages.appendChild(listItem);
+            messages.scrollTop = messages.scrollHeight; 
+        });
+
+        function sendMessage() {
+            var messageInput = document.getElementById('message');
+            var message = messageInput.value;
+            messageInput.value = '';
+            socket.emit('message_from_client', message);
+        }
+
+        // Add a single click event listener to the <ul> container (event delegation)
+        var messages = document.getElementById('messages');
+        var messageInput = document.getElementById('message');
+        var message = messageInput.value;
+        messages.addEventListener('click', function(event) {
+            if (event.target.tagName === 'LI') {
+                messageInput.value = event.target.textContent;
+            }
+        });
+
+    </script>
+</body>
+</html>
+

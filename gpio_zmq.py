@@ -6,7 +6,7 @@ import signal
 import os
 import zmq
 
-from pubsub import Pubsub
+from common.pubsub import Pubsub
 
 ps = Pubsub()
 
