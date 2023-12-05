@@ -7,6 +7,9 @@ from common.pubsub import Pubsub
 ps = Pubsub(name="piper")
 
 
+voices = { "lessac": "en_US-lessac-medium", "kathleen": "en_US-kathleen-low", "alan": "en_GB-alan-medium"}
+modelname = "en_GB-alan-medium"
+
 def say(phrase):
 # Define the first part of the pipe
     subprocess.run(['killall', 'aplay'])
@@ -15,8 +18,6 @@ def say(phrase):
     p1 = subprocess.Popen(['echo', phrase], stdout=subprocess.PIPE)
 
 
-#    modelname = "en_US-lessac-medium"
-    modelname = "en_GB-alan-medium"
 
 # Define the second part of the pipe
     p2 = subprocess.Popen(["./piper/piper", "--model", "piper/voices/" + modelname + ".onnx", "--output-raw"], stdin=p1.stdout, stdout=subprocess.PIPE)
@@ -42,6 +43,14 @@ while True:
         print(phrase)
         say(phrase)
         print("just said phrase", phrase)
+
+    if("--piper::voice:::" in message):
+        voicename = message.split("::voice:::")[1]
+        if voicename in voices:
+            modelname = voices[voicename]
+        else:
+            modelname = voices.values()[0]
+        say("Changed voice to " + modelname)
 
  
 #echo 'Hello! How are you?' | ./piper --model voices/en_GB-alan-medium.onnx --output-raw | aplay -r 22050 -f S16_LE -t raw -

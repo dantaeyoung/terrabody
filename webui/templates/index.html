@@ -14,6 +14,29 @@
 #messages li {
     cursor: pointer;
 }
+
+.from {
+    border-radius: 10px;
+    padding: 0px 3px;
+    color: white;
+}
+            
+.to {
+    border: 1px solid pink;
+    border-radius: 10px;
+    padding: 0px 3px;
+}
+
+.message {
+    font-weight: bold;
+    padding: 0px 3px;
+}
+
+.data {
+    opacity: 0.6;
+}
+            
+            
 </style>
 </head>
 <body>
@@ -35,6 +58,49 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
     <script>
+
+        // Define a function to convert the data using the regex and span elements
+
+
+        function convertData(data) {
+            const pattern = /([^--]+)--to--([^:]+)::([^:]+)(?:::([^]+))?/;
+            const matches = data.match(pattern);
+            console.log(matches)
+
+            if (matches) {
+                const fromGroup = matches[1];
+                const toGroup = matches[2];
+                const messageGroup = `<span class="message">${matches[3]}</span>`;
+                const dataGroup = matches[4] ? `<span class="data">${matches[4]}</span>` : '';
+
+
+                const fromGroupRGB = stringToRGB(fromGroup);
+                const fromGroupStyle = `background-color: ${fromGroupRGB};`;
+                const fromGroupSpan = `<span class="from" style="${fromGroupStyle}">${fromGroup}</span>`;
+
+                const toGroupRGB = stringToRGB(toGroup);
+                const toGroupStyle = `background-color: ${toGroupRGB};`;
+                const toGroupSpan = `<span class="from" style="${toGroupStyle}">${toGroup}</span>`;
+
+
+                return `${fromGroupSpan}--to--${toGroupSpan}::${messageGroup}${dataGroup}`;
+            } else {
+                return data; // Return the original data if no match is found
+            }
+        }
+
+
+        function stringToRGB(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const r = (hash & 0xFF0000) >> 16;
+            const g = (hash & 0x00FF00) >> 8;
+            const b = hash & 0x0000FF;
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
         var socket = io.connect('http://' + document.domain + ':' + location.port);
 
         socket.on('connect', function() {
@@ -44,7 +110,8 @@
         socket.on('message_from_server', function(data) {
             var messages = document.getElementById('messages');
             var listItem = document.createElement('li');
-            listItem.textContent = data;
+            listItem.innerHTML = convertData(data);
+            listItem.classList.add("zmqmessage");
             messages.appendChild(listItem);
             messages.scrollTop = messages.scrollHeight; 
         });
