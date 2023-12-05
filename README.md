@@ -1,9 +1,15 @@
 
-# (terrasummon)
+# (t e r r a b o d y)
 
-A Terracomputer is a computer for a wizard. 
+A terrabody is a computer for a wizard. 
 
-Terrabody is made of a Body With Organs. 
+part of the (t e r r a) system.
+
+
+
+## concept
+
+Terrabody is a Body With Organs. 
 
 An Organ has a particular function. It receives input, chews on it, digests, and then spits it out into an output. 
 
@@ -14,57 +20,63 @@ Sometimes, it requests something from another organ in order to chew better.
 
 Organs are pretty independent. Anything about an internal state, it burps. If it wants something specific to happen, it requests. 
 
-In broadcast form: an organ its name + announcement + payload
+The ether is treated like a cytoplasm. Messages move back and forth. 
 
+terraprograms are crafted on top of terrabody.
 
-part of the terra system.
+## implementation
 
-this assumes [pi-heart](https://github.com/dantaeyoung/pi-heart/) and an rpi5.
+ZeroMQ is used as a messaging system to exchange messages between organs. 
 
+Pros:
+- Each organ (computing module) operates individually.
+- You can interject and 'hook' into any particular organ's functions from external processes, including the webui.
 
+Cons:
+- Chasing down program flow is a bit like following a white rabbit, or understanding the Krebs cycle.
 
+## message format
 
-
-
-
-
-
-
-
-## Whisper.cpp
-
-Install whisper.cpp
-(More instructions via https://github.com/ggerganov/whisper.cpp/discussions/166)
- - `sudo apt install libsdl2-dev`
-In a directory:
-  ```
-git clone https://github.com/ggerganov/whisper.cpp
-cd whisper.cpp
-make -j stream
-make
-make server
-./models/download-ggml-model.sh tiny.en
-./models/download-ggml-model.sh base.en
 ```
-Daemonize with pm2
-- pm2 start ./server --name whisper-server
+{ 
+  "from": "organ A",
+  "to": "organ B", // optional 
+  "subject": "received",
+  "data": obj, // optional
+}
+```
+Example 1: from GPIO broadcasting a button push
 
-pip install whispercpp
+```
+{ 
+  "from": "gpio",
+  "subject": "button1_held",
+}
+```
+Example 2: from whisper.cpp transcribing message
 
-  
-### Install python libraries
+```
+{ 
+  "from": "whisper",
+  "subject": "transcribed",
+  "data": {
+    "text": "Hello world!".
+  }
+}
+```
+Example 3: a request to piper to vocalize a message
+```
+{ 
+  "from": "webui",
+  "to": "piper",
+  "subject": "vocalize",
+  "data": {
+    "text": "Hi! How are you?".
+  }
+}
+```
+NOTE: `zmq_switchboard` will automatically add timestamps.
 
+## setup
 
-
- - `sudo apt install python3-pyaudio`??
- - install portaudio (need to build from scratch)
- - `pip install pyaudio`
- - `pip install sounddevice`
-
-## SETUP
-
-gpio_zmq_server.sh and main_switchboard.py communicate to each other via zmq.
-
- - Run `gpio_zmq_server.sh` as a process via pm2.
- - Run `main_switchboard.py` as a process via pm2.
-
+See [SETUP.md](SETUP.md).
