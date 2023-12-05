@@ -37,6 +37,11 @@ Cons:
 
 ## message format
 
+`FROM--to--TO::MESSAGE:::PAYLOAD`
+`openai--to--piper::say:Hello! I'm just a digital assistant, so I don't have feelings, but I'm here and ready to assist you. How can I help you today?`
+
+<!---
+
 ```
 { 
   "from": "organ A",
@@ -76,7 +81,7 @@ Example 3: a request to piper to vocalize a message
 }
 ```
 NOTE: `zmq_switchboard` will automatically add timestamps.
-
+-->
 ## setup
 
 See [SETUP.md](SETUP.md).
